@@ -3,7 +3,8 @@
 var express = require('express');
 var app = express();
 var cookieParser = require('cookie-parser');
-
+xmlparser = require('express-xml-bodyparser');
+app.use(express.json());
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
