@@ -1,0 +1,27 @@
+<!-- views/pages/logger.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+<main>
+    <div class="jumbotron">
+        <h1>Please Log In:</h1>
+        <p><form action="/" method=GET><b>USERNAME: </b><input type="text" name="username">
+        <p><input type="radio" name="usertype" value="Reporter"> Reporter
+            <input type="radio" name="usertype" value="Subscriber"> Subscriber
+        <p><input type="submit" value="Log In"></form></p>
+     
+        </p>
+    </div>
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+</body>
+</html>
