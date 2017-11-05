@@ -1,0 +1,31 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+<main>
+    <div class="jumbotron">
+        <h1>Welcome to NEW News, GUEST</h1>
+        <p> Please Log In:</p>
+        <p><form action="/logger" method=POST><input type="submit" value="Log In"></form></p>
+    </div>
+    <center><b>Articles:</b></center>
+    <% for(var i=0; i<article.length; i++) {%>
+        <li>
+            <a href='article/<%= article[i] %>'>
+                <%= article[i] %>
+            </a>
+        </li>
+    <% } %>
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+</body>
+</html>

@@ -2,6 +2,7 @@
 // load the things we need
 var express = require('express');
 var app = express();
+var cookieParser = require('cookie-parser');
 
 
 // set the view engine to ejs
@@ -23,6 +24,20 @@ app.get('/logger', function(req, res) {
 app.get('/articles', function(req, res) {
     res.render('pages/articles');
 });
+
+//cookies
+app.use(cookieParser());
+
+//Set Cookie and Set Expir Date
+app.get('/cookie',function(req, res){
+     res.cookie(cookie_name , 'cookie_value', {expire : new Date() + 9999}).send('Cookie is set');
+});
+//deletes cookies
+app.get('/clearcookie', function(req,res){
+     clearCookie('cookie_name');
+     res.send('Cookie deleted');
+});
+
 
 app.listen(8080);
 console.log('8080 is the magic port');
