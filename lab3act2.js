@@ -20,46 +20,41 @@ app.use(bodyParser());
 // index page 
 app.get('/', function(req, res) {
    console.log('userName at get' + userName);
-       res.render('pages/index',{userName: userName});  
-    
+       res.render('pages/index',{userName: userName});    
     
    
 });
 app.get('/add', function(req, res) {
    console.log('userName at get' + userName);
        res.render('pages/add',{userName : userName,
-                              userRoles: userRoles});  
-    
-    
+                              userRoles: userRoles});   
    
 });
-app.post('/', function(req, res) {
-    userName = req.body.username;
-    userRoles = req.body.usertype;
-     console.log('userName' + userName + " and usertype " + req.body);
-    if(userName != null){
-      console.log('userName' + userName + " and usertype " + userRoles);
-       res.render('pages/loggerPost', {nameName: userName,
-                                       userRoles: userRoles      
-    
-       });
-    }else{
-        console.log('userName: ' + userName);
-       res.render('pages/index');  
-    }
-    
+app.post('/add', function(req, res) {
+   console.log('userName at get' + userName);
+       res.render('pages/add',{userName : userName,
+                              userRoles: userRoles});   
    
 });
+
 // about page 
 app.get('/logger', function(req, res) {
     userName = req.body.username;
     //console.log('userName: ' + userName);
     res.render('pages/logger');
 });
-app.post('/logger', function(req, res) {
-    userName = req.body.username;
-    console.log('userName: ' + userName);
-    res.render('pages/logger');
+app.post('/logger', function(req, res) {  
+     userName = req.body.username;
+     userRoles = req.body.usertype;
+    if(userName != null){
+      console.log('userName' + userName + " and usertype " + userRoles);
+       res.render('pages/loggerPost', {nameName: userName,
+                                       userRoles: userRoles  
+    
+       });
+    }else{
+    console.log('userName: Logger' + userName);
+       res.render('pages/logger')} 
 });
 // about page 
 app.get('/articles', function(req, res) {
