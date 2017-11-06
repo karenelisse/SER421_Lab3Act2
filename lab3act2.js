@@ -10,13 +10,18 @@ var userRoles = '';
 
 
 var fs = require('fs'),
+    parseString = require('xml2js').parseString,
     xml2js = require('xml2js');
+
+
  
-var parser = new xml2js.Parser();
-fs.readFile(__dirname + '/news.xml', function(err, data) {
-    parser.parseString(data, function (err, result) {
-        console.dir(result);
-        console.log('Done');
+fs.readFile('news.xml',"utf-8", function(err, data) {
+    if(err) console.log(err);
+    //console.log(data);
+    parseString(data, function (err, result) {
+        if(err) console.log(err);
+        console.dir(JSON.stringify(result));
+        //console.log('Done');
     });
 });
 
