@@ -15,7 +15,7 @@ var visibility = 'F';
 var title ='';
 var content = [];
 var jsonString = {};
-var article ={"TITLE":["M"],"AUTHOR":["Igor"],"PUBLIC":["T"],"CONTENT":["008.\r\n"]};
+var article ={"TITLE":[],"AUTHOR":[],"PUBLIC":[],"CONTENT":[]};
 var jsonObj = {"role": "Subscriber", "name": "Bob"};
 var sizeOfContents = 0;
 var title = [];
@@ -46,15 +46,8 @@ var data = fs.readFileSync('news.xml');
         sizeOfContents = jsonString.NEWS.ARTICLE.length;
         
     });
-        jsonString.NEWS.ARTICLE[jsonString.NEWS.ARTICLE.length] = article;
-        var builder = new xml2js.Builder();
-        var xml = builder.buildObject(jsonString);
-        
-        fs.writeFile('news.xml', xml, function(err, data){
-            if (err) console.log(err);
-            
-            console.log("successfully written our update xml to file");
-             })
+       // jsonString.NEWS.ARTICLE[jsonString.NEWS.ARTICLE.length] = article;
+
 //console.log(jsonString.NEWS[0].ARTICAL.length);
 console.log("jason Object " +jsonString); 
 
@@ -107,11 +100,24 @@ app.post('/add', function(req, res) {
  
    var contentTemp = req.body.article;
    var titleTemp = req.body.title;
-    visibility = req.body.visibility;
+     visibility = req.body.visibility;
      console.log('Title' + titleTemp + "   :"+ userName);
      console.log("Content: " + contentTemp + 'VVVV' +visibility);
-    
-       res.render('pages/loggerPost',{userName : userName,
+    article.AUTHOR.push(userName);
+    article.TITLE.push(titleTemp);
+    article.PUBLIC.push(visibility);
+    article.CONTENT.push(contentTemp);
+    jsonString.NEWS.ARTICLE[jsonString.NEWS.ARTICLE.length] = article;
+    // convert json object to xml file
+    var builder = new xml2js.Builder();
+    var xml = builder.buildObject(jsonString);
+        
+    fs.writeFile('news.xml', xml, function(err, data){
+        if (err) console.log(err);
+            
+            console.log("successfully written our update xml to file");
+             });
+    res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title});   
    
