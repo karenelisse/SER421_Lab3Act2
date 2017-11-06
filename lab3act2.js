@@ -22,13 +22,14 @@ var title = [];
 var id = 0;
 
 
- var fsJson = require("fs");
+ var fsJson = require('fs');
  console.log("\n *STARTING* \n");
 // Get content from file
  var contents = fsJson.readFileSync("users.json");
 // Define to JSON type
-console.log(contents);
- var jsonContent = JSON.parse(contents);
+console.log("this is Json content:   " + contents);
+ var jsonUserObject = JSON.parse(contents);
+console.log("this is Json content:  (OBJECT)  " + jsonUserObject);
 // Get Value from JSON
 
 var fs = require('fs'),
