@@ -2,6 +2,7 @@
 // load the things we need
 var express = require('express');
 var app = express();
+var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
 
@@ -9,21 +10,32 @@ var userName = '';
 var userRoles = '';
 
 
+var fs = require('fs');
+var xml2js = require('xml2js');
+var parser = new xml2js.Parser();
+
+var jsonString = {};
+
 var fs = require('fs'),
-    parseString = require('xml2js').parseString,
-    xml2js = require('xml2js');
+    parseString = require('xml2js').parseString;
 
-
- 
-fs.readFile('news.xml',"utf-8", function(err, data) {
-    if(err) console.log(err);
-    //console.log(data);
-    parseString(data, function (err, result) {
+var data = fs.readFileSync('news.xml');  
+  
+    // we then pass the data to our method here
+    parseString(data, function(err, result){
         if(err) console.log(err);
-        console.dir(JSON.stringify(result));
-        //console.log('Done');
-    });
-});
+        // here we log the results of our xml string conversion
+        jsonString = result;
+        
+   });
+
+
+console.log("json Object " +jsonString); 
+
+for(var index= 0; index< jsonString.NEWS.ARTICLE.length; index++){
+console.log(jsonString.NEWS.ARTICLE[index].TITLE);
+}
+
 
 
 
@@ -79,5 +91,19 @@ app.get('/articles', function(req, res) {
     res.render('pages/articles');
 });
 
+app.get('/articlesList', function(req, res) {
+    userName = req.body.username;
+    //console.log('userName: ' + userName);
+    res.render('pages/articlesList');
+});
+app.post('/articlesList', function(req, res) {
+    userName = req.body.username;
+    userRoles = req.body.usertype;
+    jsonString = req.body.jsonString;
+   console.log('userName at get' + userName);
+       res.render('pages/articlesList',{userName: userName,
+                                        userRoles: userRoles,
+                                        jsonString: jsonString}); 
+});
 app.listen(8080);
 console.log('8080 is the magic port');
