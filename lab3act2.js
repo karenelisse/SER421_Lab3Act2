@@ -15,6 +15,7 @@ var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
 
 var jsonString = {};
+var newsData = {};
 
 var fs = require('fs'),
     parseString = require('xml2js').parseString;
@@ -26,7 +27,8 @@ var data = fs.readFileSync('news.xml');
         if(err) console.log(err);
         // here we log the results of our xml string conversion
         jsonString = result;
-        
+       
+        newsData = result;
    });
 
 
@@ -86,24 +88,25 @@ app.post('/logger', function(req, res) {
     console.log('userName: Logger' + userName);
        res.render('pages/logger')} 
 });
-// about page 
+// articles page 
 app.get('/articles', function(req, res) {
     res.render('pages/articles');
 });
 
+//articlesListPage
 app.get('/articlesList', function(req, res) {
-    userName = req.body.username;
-    //console.log('userName: ' + userName);
-    res.render('pages/articlesList');
+   console.log('userName at get' + userName);
+       res.render('pages/articlesList',{userName : userName,
+                              userRoles: userRoles,
+                                       jsonString: jsonString});      
 });
 app.post('/articlesList', function(req, res) {
-    userName = req.body.username;
-    userRoles = req.body.usertype;
-    jsonString = req.body.jsonString;
    console.log('userName at get' + userName);
-       res.render('pages/articlesList',{userName: userName,
-                                        userRoles: userRoles,
-                                        jsonString: jsonString}); 
+       res.render('pages/articlesList',{userName : userName,
+                              userRoles: userRoles});   
+   
 });
+
+
 app.listen(8080);
 console.log('8080 is the magic port');
