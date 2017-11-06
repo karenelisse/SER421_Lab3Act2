@@ -6,7 +6,7 @@
     <% include ../partials/head %>
 </head>
 <body class="container">
-    <h1>Welcome <%= nameName %> you currently have <%= userRoles %> privileges</h1>
+    <h1>Welcome <%= userName %> you currently have <%= userRoles %> privileges</h1>
 
 <main>
     <div class="jumbotron">
@@ -15,10 +15,13 @@
         
         <p><input type="submit" value="Log Out"></form></p>
       <% if(userRoles == "Reporter"){%>
-        <% include ../partials/linkToAdd %>
+        <% include ../partials/linkToAdd %> <br> <br>
     <%} %>
-        <% include ../pages/articlesList %>
-
+    
+     <% for (var i =0; i < title.length; i++){ %>
+        <a href='/content/<%=i%>'><%= title[i] %> </a> <br>
+        <%} %>
+            
     
         </p>
     </div>

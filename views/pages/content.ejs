@@ -1,0 +1,29 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+ 
+<main>
+    <div class="jumbotron">
+        <h1>Welcome to NEW News, GUEST</h1>
+        <p> Please Log In:</p>
+        <p><form action="/" method='GET'><input type="submit"  name="botton" value="Logout"></form></p
+       
+    </div>
+       <h2> <%= title %></h2><br><br>
+        <p> <%= content %></p>
+            
+        
+     
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+</body>
+</html>

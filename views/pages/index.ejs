@@ -6,14 +6,21 @@
     <% include ../partials/head %>
 </head>
 <body class="container">
-
+ 
 <main>
     <div class="jumbotron">
         <h1>Welcome to NEW News, GUEST</h1>
         <p> Please Log In:</p>
-        <p><form action="/logger" method='GET'><input type="submit"  name="botton" value="Log In"></form></p>
-    <a href="http://localhost:8080/articlesList">View Articles</a>
+        <p><form action="/logger" method='GET'><input type="submit"  name="botton" value="Log In"></form></p
+       
     </div>
+        <% for (var i =0; i < title.length; i++){ %>
+        <% if (visibility[i]!= "F"){ %>
+        <a href='/content/<%=i%>'><%= title[i] %> </a> <br>
+        <%} }%>
+        
+
+     
 </main>
 
 <footer>
