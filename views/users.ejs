@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>All Users</title>
+    </head>
+    <body>
+        <h1>All Users</h1>
+        <div>
+            <!--
+                Using FOREACH LOOP for the users array
+                
+                myArray.forEach(function(el, index) {
+                    // el - current element, i - index
+                });
+            -->
+            <% users.forEach(function(user){ %>
+                <p><%= user.name %> <a href='/user/<%= user.id %>'>View Details</a></p>
+            <% }) %>
+        </div>
+    </body>
+</html>

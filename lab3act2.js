@@ -5,6 +5,7 @@ var app = express();
 var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
+app.set('view engine', 'ejs');
 
 var userName = '';
 var userRoles = '';
@@ -15,7 +16,7 @@ var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
 
 var jsonString = {};
-var newsData = {};
+var newsData = [];
 
 var fs = require('fs'),
     parseString = require('xml2js').parseString;
@@ -28,16 +29,16 @@ var data = fs.readFileSync('news.xml');
         // here we log the results of our xml string conversion
         jsonString = result;
        
-        newsData = result;
+        newsData = JSON.stringify(jsonString.NEWS.ARTICLE);
    });
 
 
 console.log("json Object " +jsonString); 
+console.log(newsData)
 
 for(var index= 0; index< jsonString.NEWS.ARTICLE.length; index++){
 console.log(jsonString.NEWS.ARTICLE[index].TITLE);
 }
-
 
 
 
@@ -105,6 +106,46 @@ app.post('/articlesList', function(req, res) {
        res.render('pages/articlesList',{userName : userName,
                               userRoles: userRoles});   
    
+});
+
+//News Articles
+ 
+// for users list page
+app.get('/news', function(request, response){    
+    /**
+     * render to views/users.ejs template file
+     * usersList is set to users variable
+     */ 
+    response.render('news', {news: newsData});
+});
+ 
+// for individual user page
+app.get('/user/:id', function(request, response){    
+    /** 
+     * Get the individual user details using request param ID
+     * 
+     * We use array.filter() function for this purpose
+     * 
+     * filter() is a Javascript function that creates a new array with elements 
+     * that satisfies the conditions present in the callback function
+     */ 
+    var singleUser = usersList.filter(function(user){console.log(user.id); return user.id == request.params.id});
+    
+    /** 
+     * The filter creates a new array with single user element
+     * Hence, getting the value of the first and only element
+     */ 
+    var singleUser = singleUser[0];
+    
+    /**
+     * render to views/user.ejs template file
+     * name, age & email variables are passed to the template
+     */ 
+    response.render('user', {
+        name: singleUser.name, 
+        age: singleUser.age,
+        email: singleUser.email
+    });
 });
 
 
