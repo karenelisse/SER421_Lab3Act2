@@ -3,11 +3,9 @@
 var express = require('express');
 var session = require('express-session');
 var app = express();
-
 var cookieParser = require('cookie-parser');
 xmlparser = require('express-xml-bodyparser');
 app.use(express.json());
-//cookies
 app.use(cookieParser());
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -15,7 +13,11 @@ var bodyParser = require('body-parser');
   parseString = require('xml2js').parseString,
     xml2js = require('xml2js');
 
+//express sessions
+// Use the session middleware
+app.use(session({ secret: 'EXPRESSKEY', resave: true, saveUninitialized: true, cookie: { maxAge: 2592000000 }})) // sets expriy for 30 days
 
+//sets up items for xml and json files
 var userName ;
 var userRoles ;
 var visibility = 'F';
@@ -34,7 +36,7 @@ var author = [];
  var fsJson = require('fs');
  console.log("\n *STARTING* \n");
 // Get content from file
- var usersJsonStr = fsJson.readFileSync("users.json");
+ var usersJsonStr = fsJson.readFileSync("newsusers.json");
 // Define to JSON type
  console.log(" users" + usersJsonStr);
  var jsonUserObject = JSON.parse(usersJsonStr);
@@ -62,9 +64,7 @@ var data = fs.readFileSync('news.xml');
 
 
 for(var index= 0; index< jsonString.NEWS.ARTICLE.length; index++){
-
-    
-    title.push(jsonString.NEWS.ARTICLE[index].TITLE[0]);
+ title.push(jsonString.NEWS.ARTICLE[index].TITLE[0]);
     content.push(jsonString.NEWS.ARTICLE[index].CONTENT);
     visibility.push(jsonString.NEWS.ARTICLE[index].PUBLIC);
     author.push(jsonString.NEWS.ARTICLE[index].AUTHOR);
@@ -157,7 +157,8 @@ app.get('/logger', function(req, res) {
     res.render('pages/logger');
 });
 app.get('/loggerPost', function(req, res) {
-  
+        req.session.userName;
+        req.session.userRole;
       res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title,
@@ -214,12 +215,12 @@ app.post('/logger', function(req, res) {
         jsonObj.role = userRoles;
         jsonUserObject.users.push(jsonObj);
         
-        fsJson.writeFile("users.json", JSON.stringify(jsonUserObject), (err) => {
+        fsJson.writeFile("newsusers.json", JSON.stringify(jsonUserObject), (err) => {
     if (err) {
         console.error(err);
         return;
     };
-    console.log("users.json File has been created");
+    console.log("newsusers.json File has been created");
 });
 
         
@@ -245,24 +246,7 @@ app.get('/articles', function(req, res) {
 });
 
 
-//express sessions
 
-// Use the session middleware
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
- 
-// Access the session as req.session
-app.get('/', function(req, res, next) {
-  if (req.session.views) {
-    req.session.views++
-    res.setHeader('Content-Type', 'text/html')
-    res.write('<p>views: ' + req.session.views + '</p>')
-    res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-    res.end()
-  } else {
-    req.session.views = 1
-    res.end('welcome to the session demo. refresh!')
-  }
-})
 
 //cookies
 app.use(cookieParser());
