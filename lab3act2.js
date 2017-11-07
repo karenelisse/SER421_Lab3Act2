@@ -2,11 +2,11 @@
 // load the things we need
 var express = require('express');
 var app = express();
-<<<<<<< HEAD
+
 var cookieParser = require('cookie-parser');
 xmlparser = require('express-xml-bodyparser');
 app.use(express.json());
-=======
+
 var path = require('path');
 var bodyParser = require('body-parser');
 
@@ -68,7 +68,7 @@ for(var i = 0; i  < title.length; i++)
 {
     console.log("Title is : " + title[i]);
 }
->>>>>>> tongBranch
+
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
