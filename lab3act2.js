@@ -36,6 +36,20 @@ console.log("this is Json content:   " + contents);
  var jsonUserObject = JSON.parse(contents);
 console.log("this is Json content:  (OBJECT)  " + jsonUserObject);
 // Get Value from JSON
+// search json contents file for user ** needs improvement
+var hasName = function(name) {
+    var i = null;
+    for (i = 0; contents.length > i; i += 1) {
+        if (contents[i].name === userName) {
+            return true;
+            console.log("TRUE")
+        }
+    }
+     
+    return false;
+    console.log("FALSE")
+};
+
 
 var fs = require('fs'),
     parseString = require('xml2js').parseString;
