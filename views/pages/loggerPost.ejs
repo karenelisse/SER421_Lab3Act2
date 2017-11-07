@@ -26,9 +26,11 @@
 
        <% if((author[i] == userName && userRoles == "Reporter" ) || visibility[i]!= "F") {%>      
        
-    <form action="/remove/<%= i %>" method='POST'>
+        <form action="/remove/<%= i %>" method='POST'>
          <a href='/content/<%=i%>'><%= title[i] %>  </a> 
         <input type="submit"  name="<%= title[i] %>" value="Delete">
+           
+        
     </form>         
      <p>
 

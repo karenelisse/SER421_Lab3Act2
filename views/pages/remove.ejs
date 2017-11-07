@@ -16,10 +16,10 @@
     <h2> Are you sure you want to delete:</h2>
     <br>
      <%= title %>
-     <%= index %>
+     
     <div class="judembotron">
      
-    <form action="/delete/ <%= index %>" method=POST><input type="submit" value="Delete"></form>
+    <form action="/delete/<%= index %>" method=POST><input type="submit" value="Delete"></form>
     <form action="/loggerPost" method=GET><input type="submit" value="Cancel"></form></p>
     
         
