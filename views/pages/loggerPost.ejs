@@ -1,0 +1,35 @@
+<!-- views/pages/logger.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+    <h1>Welcome <%= userName %> you currently have <%= userRoles %> privileges</h1>
+
+<main>
+    <div class="jumbotron">
+     
+        <p><form action="/" method=GET>
+        
+        <p><input type="submit" value="Log Out"></form></p>
+      <% if(userRoles == "Reporter"){%>
+        <% include ../partials/linkToAdd %> <br> <br>
+    <%} %>
+    
+     <% for (var i =0; i < title.length; i++){ %>
+        <a href='/content/<%=i%>'><%= title[i] %> </a> <br>
+        <%} %>
+            
+    
+        </p>
+    </div>
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+</body>
+</html>
