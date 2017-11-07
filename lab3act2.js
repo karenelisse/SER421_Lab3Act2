@@ -140,7 +140,8 @@ app.post('/add', function(req, res) {
              });
     res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
-                                      title: title});   
+                                      title: title,
+                                   author: author});   
    
 });
 
@@ -157,7 +158,8 @@ app.post('/logger', function(req, res) {
       console.log('userName' + userName + " and usertype " + userRoles);
      res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
-                                      title: title});   
+                                      title: title,
+                                    author: author});   
    
     }else{
     console.log('userName: Logger' + userName);
