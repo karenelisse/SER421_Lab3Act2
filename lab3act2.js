@@ -14,8 +14,8 @@ var bodyParser = require('body-parser');
     xml2js = require('xml2js');
 
 
-var userName = 'A';
-var userRoles = '';
+var userName ;
+var userRoles ;
 var visibility = 'F';
 var title ='';
 var content = [];
@@ -25,6 +25,8 @@ var jsonObj = {"role": "Subscriber", "name": "Bob"};
 var sizeOfContents = 0;
 var title = [];
 var id = 0;
+var visibility = [];
+var author = [];
 
 
  var fsJson = require('fs');
@@ -62,6 +64,8 @@ for(var index= 0; index< jsonString.NEWS.ARTICLE.length; index++){
     console.log(jsonString.NEWS.ARTICLE[index].TITLE.length);
     title.push(jsonString.NEWS.ARTICLE[index].TITLE[0]);
     content.push(jsonString.NEWS.ARTICLE[index].CONTENT);
+    visibility.push(jsonString.NEWS.ARTICLE[index].PUBLIC);
+    author.push(jsonString.NEWS.ARTICLE[index].AUTHOR);
 }
 
 for(var i = 0; i  < title.length; i++)
@@ -83,7 +87,8 @@ app.use(bodyParser());
 app.get('/', function(req, res) {
    console.log('userName at get' + userName);
        res.render('pages/index',{userName: userName,
-                                title: title});    
+                                title: title,
+                                visibility: visibility});    
     
    
 });
@@ -92,7 +97,8 @@ app.get('/content/:i', function(req, res) {
      console.log('REQUEWT ' + i);
        res.render('pages/content',{userName: userName,
                                 title: title[i],
-                                  role: userRoles,
+                                userRoles: userRoles,
+                                  
                                   content: content[i]});    
     
    
@@ -143,7 +149,8 @@ app.post('/logger', function(req, res) {
       console.log('userName' + userName + " and usertype " + userRoles);
      res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
-                                      title: title});   
+                                      title: title,
+                                     author: author});   
    
     }else{
     console.log('userName: Logger' + userName);

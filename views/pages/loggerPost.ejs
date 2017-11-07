@@ -16,10 +16,18 @@
         <p><input type="submit" value="Log Out"></form></p>
       <% if(userRoles == "Reporter"){%>
         <% include ../partials/linkToAdd %> <br> <br>
-    <%} %>
+        <% for (var i =0; i < title.length; i++){ %>
+   
+    
+    
+    <%}}%>
     
      <% for (var i =0; i < title.length; i++){ %>
+       <% if(author[i][0] === userName && userRoles == "Reporter" ) {%>      
         <a href='/content/<%=i%>'><%= title[i] %> </a> <br>
+             <%}else if(userRoles != "Reporter") {%>
+        <a href='/content/<%=i%>'><%= title[i] %> </a> <br>
+        <%}%>
         <%} %>
             
     

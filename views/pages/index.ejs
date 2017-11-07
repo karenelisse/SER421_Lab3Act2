@@ -17,8 +17,9 @@
 
     </div>
         <% for (var i =0; i < title.length; i++){ %>
+        <% if (visibility[i]!= "F"){ %>
         <a href='/content/<%=i%>'><%= title[i] %> </a> <br>
-        <%} %>
+        <%} }%>
             
         
      
