@@ -27,20 +27,22 @@
 
 
        <% if((author[i] == userName && userRoles == "Reporter" ) || visibility[i]!= "F") {%>      
-       
-        <form action="/remove/<%= i %>" method='POST'>
-         <a href='/content/<%=i%>'><%= title[i] %>  </a> 
-        <input type="submit"  name="<%= title[i] %>" value="Delete">
-           
+           <% if(author[i] == userName && userRoles == "Reporter" ) { %>
+              <form action="/remove/<%= i %>" method='POST'>
+              <a href='/content/<%=i%>'><%= title[i] %>  </a> 
+              <input type="submit"  name="<%= title[i] %>" value="Delete">      
         
-    </form>         
+        </form>
+          <% }else if(author[i] != userName){ %>   
+                <a href='/content/<%=i%>'><%= title[i] %> </a>  
+              <%} %>
      <p>
 
 
-             <%}else if(userRoles != "Reporter") {%>
+      <%}else if(userRoles != "Reporter") {%>
         <a href='/content/<%=i%>'><%= title[i] %> </a> <br>
         <%}%>
-        <%} %>
+<%} %>
             
     
         </p>

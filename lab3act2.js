@@ -120,13 +120,15 @@ app.post('/add', function(req, res) {
  
    var contentTemp = req.body.article;
    var titleTemp = req.body.title;
-    visibility = req.body.visibility;     
+   var visibilityTemp = req.body.visibility;     
     title.push(titleTemp);
     author.push(userName);
-    article.AUTHOR.push(userName);
-    article.TITLE.push(titleTemp);
-    article.PUBLIC.push(visibility);
-    article.CONTENT.push(contentTemp);
+    visibility.push(visibilityTemp);
+    
+    article.AUTHOR[0] = (userName);
+    article.TITLE[0] =  (titleTemp);
+    article.PUBLIC[0] = (visibility);
+    article.CONTENT[0] =(contentTemp);
     jsonString.NEWS.ARTICLE[jsonString.NEWS.ARTICLE.length] = article;
     // convert json object to xml file
     var builder = new xml2js.Builder();
@@ -177,6 +179,15 @@ app.post('/delete/:title', function(req, res) {
    
     delete jsonString.NEWS.ARTICLE[indexTodelete];  
     var deletTitle = delete title[indexTodelete];
+        // convert json object to xml file
+    var builder = new xml2js.Builder();
+    var xml = builder.buildObject(jsonString);
+        
+    fs.writeFile('news.xml', xml, function(err, data){
+        if (err) console.log(err);
+            
+            console.log("successfully written our update xml to file");
+             });
     
         res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
