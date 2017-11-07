@@ -111,9 +111,17 @@ app.get('/content/:i', function(req, res) {
    
 });
 app.get('/add', function(req, res) {
-  
-       res.render('pages/add',{userName : userName,
-                              userRoles: userRoles});   
+        if(userName=undefined){
+            res.sendStatus(403);
+        }
+        else if(userRoles = undefined || userRoles === "Subscriber"){
+        res.sendStatus(403);      
+        }
+        else{
+        res.render('pages/add',{userName : userName,
+                  userRoles: userRoles}); 
+    }
+         
    
 });
 app.post('/add', function(req, res) {
