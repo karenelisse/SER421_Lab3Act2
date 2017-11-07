@@ -21,6 +21,7 @@ var sizeOfContents = 0;
 var title = [];
 var id = 0;
 var visibility = [];
+var author = [];
 
 
  var fsJson = require("fs");
@@ -58,6 +59,7 @@ for(var index= 0; index< jsonString.NEWS.ARTICLE.length; index++){
     title.push(jsonString.NEWS.ARTICLE[index].TITLE[0]);
     content.push(jsonString.NEWS.ARTICLE[index].CONTENT);
     visibility.push(jsonString.NEWS.ARTICLE[index].PUBLIC);
+    author.push(jsonString.NEWS.ARTICLE[index].AUTHOR);
 }
 
 for(var i = 0; i  < title.length; i++)
@@ -139,7 +141,8 @@ app.post('/logger', function(req, res) {
       console.log('userName' + userName + " and usertype " + userRoles);
      res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
-                                      title: title});   
+                                      title: title, 
+                                   author: author});   
    
     }else{
     console.log('userName: Logger' + userName);

@@ -16,7 +16,11 @@
         <p><input type="submit" value="Log Out"></form></p>
       <% if(userRoles == "Reporter"){%>
         <% include ../partials/linkToAdd %> <br> <br>
-    <%} %>
+        <% for (var i =0; i < title.length; i++){ %>
+    <% console.log(author[i]) %>
+    
+    
+    <%}}%>
     
      <% for (var i =0; i < title.length; i++){ %>
         <a href='/content/<%=i%>'><%= title[i] %> </a> <br>

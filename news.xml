@@ -62,4 +62,10 @@
     <PUBLIC>F</PUBLIC>
     <CONTENT>Test</CONTENT>
   </ARTICLE>
+  <ARTICLE>
+    <TITLE>Test Additional</TITLE>
+    <AUTHOR>Karen</AUTHOR>
+    <PUBLIC>T</PUBLIC>
+    <CONTENT>Blah Blah Blah</CONTENT>
+  </ARTICLE>
 </NEWS>
