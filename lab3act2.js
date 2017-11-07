@@ -6,7 +6,8 @@ var app = express();
 var cookieParser = require('cookie-parser');
 xmlparser = require('express-xml-bodyparser');
 app.use(express.json());
-
+//cookies
+app.use(cookieParser());
 var path = require('path');
 var bodyParser = require('body-parser');
 
@@ -34,9 +35,9 @@ var author = [];
 // Get content from file
  var contents = fsJson.readFileSync("users.json");
 // Define to JSON type
-console.log("this is Json content:   " + contents);
+
  var jsonUserObject = JSON.parse(contents);
-console.log("this is Json content:  (OBJECT)  " + jsonUserObject);
+
 // Get Value from JSON
 
 var fs = require('fs'),
@@ -50,28 +51,24 @@ var data = fs.readFileSync('news.xml');
         // here we log the results of our xml string conversion
         jsonString = result;
         var str = JSON.stringify(result);
-        console.log(str);
+      
         sizeOfContents = jsonString.NEWS.ARTICLE.length;
         
     });
        // jsonString.NEWS.ARTICLE[jsonString.NEWS.ARTICLE.length] = article;
 
 //console.log(jsonString.NEWS[0].ARTICAL.length);
-console.log("jason Object " +jsonString); 
+
 
 for(var index= 0; index< jsonString.NEWS.ARTICLE.length; index++){
 
-    console.log(jsonString.NEWS.ARTICLE[index].TITLE.length);
+    
     title.push(jsonString.NEWS.ARTICLE[index].TITLE[0]);
     content.push(jsonString.NEWS.ARTICLE[index].CONTENT);
     visibility.push(jsonString.NEWS.ARTICLE[index].PUBLIC);
     author.push(jsonString.NEWS.ARTICLE[index].AUTHOR);
 }
 
-for(var i = 0; i  < title.length; i++)
-{
-    console.log("Title is : " + title[i]);
-}
 
 
 // set the view engine to ejs
@@ -85,8 +82,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser());
 // index page 
 app.get('/', function(req, res) {
+   
     userName = null;
-   console.log('userName at get' + userName);
+console.log(req.cookies);
+  if (!req.cookies.hasVisited){
+    res.cookie('hasVisited', '1', 
+               { maxAge: 60*60*100000, 
+                 httpOnly: true, 
+                 path:'/'});
+  }
+  
        res.render('pages/index',{userName: userName,
                                 title: title,
                                 visibility: visibility});    
@@ -95,7 +100,7 @@ app.get('/', function(req, res) {
 });
 app.get('/content/:i', function(req, res) {
    var i = req.params.i;
-     console.log('REQUEWT ' + i);
+    
        res.render('pages/content',{userName: userName,
                                 title: title[i],
                                 userRoles: userRoles,
@@ -105,7 +110,7 @@ app.get('/content/:i', function(req, res) {
    
 });
 app.get('/add', function(req, res) {
-   console.log('userName at get' + userName);
+  
        res.render('pages/add',{userName : userName,
                               userRoles: userRoles});   
    
@@ -114,9 +119,9 @@ app.post('/add', function(req, res) {
  
    var contentTemp = req.body.article;
    var titleTemp = req.body.title;
-     visibility = req.body.visibility;
-     console.log('Title' + titleTemp + "   :"+ userName);
-     console.log("Content: " + contentTemp + 'VVVV' +visibility);
+    visibility = req.body.visibility;     
+    title.push(titleTemp);
+    author.push(userName);
     article.AUTHOR.push(userName);
     article.TITLE.push(titleTemp);
     article.PUBLIC.push(visibility);
@@ -133,7 +138,9 @@ app.post('/add', function(req, res) {
              });
     res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
-                                      title: title});   
+                                      title: title,
+                                       author: author
+                                       });   
    
 });
 
@@ -144,18 +151,15 @@ app.get('/logger', function(req, res) {
     res.render('pages/logger');
 });
 app.get('/loggerPost', function(req, res) {
-    //userName = req.body.username;
-    console.log('userName: 9999999999 ' + userName);
+  
       res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title,
                                      author: author}); 
 });
 app.post('/remove/:title', function(req, res) {
-     var index = req.params.title;
-    console.log('title to remove ' + index); 
-  
-       res.render('pages/remove',{userName : userName,
+     var index = req.params.title;     
+     res.render('pages/remove',{userName : userName,
                                       userRoles: userRoles,
                                       title: jsonString.NEWS.ARTICLE[index].TITLE[0],
                                  index: index});     
@@ -163,27 +167,10 @@ app.post('/remove/:title', function(req, res) {
 
 app.post('/delete/:title', function(req, res) {
      var indexTodelete = parseInt(req.params.title);
-    console.log('Indextodelete is called ' + indexTodelete);
-    //x = delete myObj.cars[1];
-    delete jsonString.NEWS.ARTICLE[indexTodelete];
-   // jsonString.NEWS.ARTICLE[indexTodelete] = null;
+   
+    delete jsonString.NEWS.ARTICLE[indexTodelete];  
     var deletTitle = delete title[indexTodelete];
-     console.log("what is this one " + jsonString.NEWS.ARTICLE[indexTodelete]);
     
-    console.log("length of Article : " + jsonString.NEWS.ARTICLE.length);
-    for(var index= 0; index< jsonString.NEWS.ARTICLE.length; index++){
-
-    //console.log(jsonString.NEWS.ARTICLE[7]);
-   // title.push(jsonString.NEWS.ARTICLE[index].TITLE[0]);
-   // content.push(jsonString.NEWS.ARTICLE[index].CONTENT);
-   // visibility.push(jsonString.NEWS.ARTICLE[index].PUBLIC);
-   // author.push(jsonString.NEWS.ARTICLE[index].AUTHOR);
-}
-for(var i = 0; i <title.length; i++)
-console.log(title[i]);
-    
-    
- console.log('delete is called ' + deletTitle);
         res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title,
@@ -193,14 +180,14 @@ app.post('/logger', function(req, res) {
      userName = req.body.username;
      userRoles = req.body.usertype;
     if(userName != null){
-      console.log('userName' + userName + " and usertype " + userRoles);
+      
      res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title,
                                      author: author});   
    
     }else{
-    console.log('userName: Logger' + userName);
+   
        res.render('pages/logger')} 
 });
 // about page 
@@ -213,7 +200,7 @@ app.use(cookieParser());
 
 //Set Cookie and Set Expir Date
 app.get('/cookie',function(req, res){
-     res.cookie(cookie_name , 'cookie_value', {expire : new Date() + 9999}).send('Cookie is set');
+     res.cookie(cookie_name , 'cookie_value', {expire : new Date() + 3600000000}).send('Cookie is set');
 });
 //deletes cookies
 app.get('/clearcookie', function(req,res){

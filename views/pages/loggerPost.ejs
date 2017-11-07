@@ -23,7 +23,7 @@
     <%}}%>
     
      <% for (i in title){ %>
-       <% if(author[i][0] === userName && userRoles == "Reporter" ) {%>      
+       <% if(author[i] == userName && userRoles == "Reporter" ) {%>      
        
     <form action="/remove/<%= i %>" method='POST'>
          <a href='/content/<%=i%>'><%= title[i] %>  </a> 
