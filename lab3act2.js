@@ -33,12 +33,12 @@ var author = [];
  var fsJson = require('fs');
  console.log("\n *STARTING* \n");
 // Get content from file
- var contents = fsJson.readFileSync("users.json");
+ var usersJsonStr = fsJson.readFileSync("users.json");
 // Define to JSON type
+ console.log(" users" + usersJsonStr);
+ var jsonUserObject = JSON.parse(usersJsonStr);
 
- var jsonUserObject = JSON.parse(contents);
 
-// Get Value from JSON
 
 var fs = require('fs'),
     parseString = require('xml2js').parseString;
@@ -179,6 +179,31 @@ app.post('/delete/:title', function(req, res) {
 app.post('/logger', function(req, res) {  
      userName = req.body.username;
      userRoles = req.body.usertype;
+    for(var i =0; i<jsonUserObject.users.length; i++){
+        var exit = false;        
+        if(userName == jsonUserObject.users[i].name){
+            console.log('user exit');
+            exit = true;
+        }
+    }
+    if(!exit){
+        //write to file
+     //var jsonObj = {"role": "Subscriber", "name": "Bob"};
+        jsonObj.name = userName;
+        jsonObj.role = userRoles;
+        jsonUserObject.users.push(jsonObj);
+        
+        fsJson.writeFile("users.json", JSON.stringify(jsonUserObject), (err) => {
+    if (err) {
+        console.error(err);
+        return;
+    };
+    console.log("users.json File has been created");
+});
+
+        
+    }
+
     if(userName != null){
       
      res.render('pages/loggerPost',{userName : userName,
