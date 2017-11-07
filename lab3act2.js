@@ -33,24 +33,10 @@ var author = [];
  var fsJson = require('fs');
  console.log("\n *STARTING* \n");
 // Get content from file
- var contents = fsJson.readFileSync("users.json");
+ var usersJsonStr = fsJson.readFileSync("users.json");
 // Define to JSON type
- var jsonUserObject = JSON.parse(contents);
-// Get Value from JSON
-
-
-//IN WORKS SEEING IF NAME EXISTS IN JSON FILE
-var exists=function(content, userName){
-    for(var i = 0; i < x.length; i++) {
-        if (content[i]['name']==userName){
-            console.log("match");
-            return i;
-        }
-    }
-    console.log("no match");
-    return -1; //This means no match found
-}
-  
+ console.log(" users" + usersJsonStr);
+ var jsonUserObject = JSON.parse(usersJsonStr);
 
 
 
@@ -153,7 +139,8 @@ app.post('/add', function(req, res) {
     res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title,
-                                       author: author
+                                       author: author,
+                                   visibility: visibility
                                        });   
    
 });
@@ -169,7 +156,8 @@ app.get('/loggerPost', function(req, res) {
       res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title,
-                                     author: author}); 
+                                     author: author,
+                                    visibility: visibility}); 
 });
 app.post('/remove/:title', function(req, res) {
      var index = req.params.title;     
@@ -188,17 +176,44 @@ app.post('/delete/:title', function(req, res) {
         res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title,
-                                     author: author});    
+                                     author: author,
+                                      visibility: visibility});    
 });
 app.post('/logger', function(req, res) {  
      userName = req.body.username;
      userRoles = req.body.usertype;
+    for(var i =0; i<jsonUserObject.users.length; i++){
+        var exit = false;        
+        if(userName == jsonUserObject.users[i].name){
+            console.log('user exit');
+            exit = true;
+        }
+    }
+    if(!exit){
+        //write to file
+     //var jsonObj = {"role": "Subscriber", "name": "Bob"};
+        jsonObj.name = userName;
+        jsonObj.role = userRoles;
+        jsonUserObject.users.push(jsonObj);
+        
+        fsJson.writeFile("users.json", JSON.stringify(jsonUserObject), (err) => {
+    if (err) {
+        console.error(err);
+        return;
+    };
+    console.log("users.json File has been created");
+});
+
+        
+    }
+
     if(userName != null){
       
      res.render('pages/loggerPost',{userName : userName,
                                       userRoles: userRoles,
                                       title: title,
-                                     author: author});   
+                                     author: author,
+                                   visibility: visibility});   
    
     }else{
    
