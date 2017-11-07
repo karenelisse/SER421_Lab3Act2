@@ -240,10 +240,16 @@ app.post('/logger', function(req, res) {
    
        res.render('pages/logger')} 
 });
-// about page 
-app.get('/articles', function(req, res) {
-    res.render('pages/articles');
-});
+
+
+//error handling
+function errorHandler (err, req, res, next) {
+  if (res.headersSent) {
+    return next(err)
+  }
+  res.status(500)
+  res.render('error', { error: err })
+}
 
 
 
