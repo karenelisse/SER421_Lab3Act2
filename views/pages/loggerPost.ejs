@@ -16,10 +16,23 @@
         <p><input type="submit" value="Log Out"></form></p>
       <% if(userRoles == "Reporter"){%>
         <% include ../partials/linkToAdd %> <br> <br>
-    <%} %>
+        <% for (var i =0; i < title.length; i++){ %>
+   
     
-     <% for (var i =0; i < title.length; i++){ %>
+    
+    <%}}%>
+    
+     <% for (i in title){ %>
+       <% if(author[i] == userName && userRoles == "Reporter" ) {%>      
+       
+    <form action="/remove/<%= i %>" method='POST'>
+         <a href='/content/<%=i%>'><%= title[i] %>  </a> 
+        <input type="submit"  name="<%= title[i] %>" value="Delete">
+    </form>         
+    
+             <%}else if(userRoles != "Reporter") {%>
         <a href='/content/<%=i%>'><%= title[i] %> </a> <br>
+        <%}%>
         <%} %>
             
     

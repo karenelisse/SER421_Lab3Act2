@@ -62,4 +62,16 @@
     <PUBLIC>F</PUBLIC>
     <CONTENT>t</CONTENT>
   </ARTICLE>
+  <ARTICLE>
+    <TITLE>Add</TITLE>
+    <AUTHOR>Igor</AUTHOR>
+    <PUBLIC>T</PUBLIC>
+    <CONTENT>Test</CONTENT>
+  </ARTICLE>
+  <ARTICLE>
+    <TITLE>Test Add</TITLE>
+    <AUTHOR>Karen</AUTHOR>
+    <PUBLIC>F</PUBLIC>
+    <CONTENT>Add</CONTENT>
+  </ARTICLE>
 </NEWS>

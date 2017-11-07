@@ -9,14 +9,31 @@
  
 <main>
     <div class="jumbotron">
-        <h1>Welcome to NEW News, GUEST</h1>
-        <p> Please Log In:</p>
-        <p><form action="/" method='GET'><input type="submit"  name="botton" value="Logout"></form></p
+        
+        <% if(userName != null){ %>
+          <h1>Welcome <%= userName %> you currently have <%= userRoles %> privileges</h1>
+        <%} %>
+        
+         <% if(userName == null){ %>
+           <h1>Welcome Guest you currently have Guest privileges</h1>
+        <%} %>
+        
+        
+        
+         
+
+        <% if(userName != null){ %>
+         <p><form action="/" method='GET'><input type="submit"  name="botton" value="Logout"></form></p
+        <%} %>
+        <% if(userName == null){ %>
+          <p><form action="/logger" method='GET'><input type="submit"  name="botton" value="Log In"></form></p
+        <%} %>
+        
        
     </div>
        <h2> <%= title %></h2><br><br>
         <p> <%= content %></p>
-         <p><a href='/loggerPost/'>HOME </a>    </p>
+            
         
      
 </main>
