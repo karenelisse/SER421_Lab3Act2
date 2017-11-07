@@ -14,7 +14,7 @@
         <p><form action="/logger" method=GET><input type="submit" value="Log In"></form></p>
     </div>
     <center><b>Articles:</b></center>
-    <% for(var i=0; i<article.length; i++) {%>
+    <% for(in in article) {%>
         <li>
             <a href='article/<%= article[i] %>'>
                 <%= article[i] %>

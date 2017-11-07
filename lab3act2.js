@@ -85,6 +85,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser());
 // index page 
 app.get('/', function(req, res) {
+    userName = null;
    console.log('userName at get' + userName);
        res.render('pages/index',{userName: userName,
                                 title: title,
@@ -141,6 +142,52 @@ app.get('/logger', function(req, res) {
     userName = req.body.username;
     //console.log('userName: ' + userName);
     res.render('pages/logger');
+});
+app.get('/loggerPost', function(req, res) {
+    //userName = req.body.username;
+    console.log('userName: 9999999999 ' + userName);
+      res.render('pages/loggerPost',{userName : userName,
+                                      userRoles: userRoles,
+                                      title: title,
+                                     author: author}); 
+});
+app.post('/remove/:title', function(req, res) {
+     var index = req.params.title;
+    console.log('title to remove ' + index); 
+  
+       res.render('pages/remove',{userName : userName,
+                                      userRoles: userRoles,
+                                      title: jsonString.NEWS.ARTICLE[index].TITLE[0],
+                                 index: index});     
+});
+
+app.post('/delete/:title', function(req, res) {
+     var indexTodelete = parseInt(req.params.title);
+    console.log('Indextodelete is called ' + indexTodelete);
+    //x = delete myObj.cars[1];
+    delete jsonString.NEWS.ARTICLE[indexTodelete];
+   // jsonString.NEWS.ARTICLE[indexTodelete] = null;
+    var deletTitle = delete title[indexTodelete];
+     console.log("what is this one " + jsonString.NEWS.ARTICLE[indexTodelete]);
+    
+    console.log("length of Article : " + jsonString.NEWS.ARTICLE.length);
+    for(var index= 0; index< jsonString.NEWS.ARTICLE.length; index++){
+
+    //console.log(jsonString.NEWS.ARTICLE[7]);
+   // title.push(jsonString.NEWS.ARTICLE[index].TITLE[0]);
+   // content.push(jsonString.NEWS.ARTICLE[index].CONTENT);
+   // visibility.push(jsonString.NEWS.ARTICLE[index].PUBLIC);
+   // author.push(jsonString.NEWS.ARTICLE[index].AUTHOR);
+}
+for(var i = 0; i <title.length; i++)
+console.log(title[i]);
+    
+    
+ console.log('delete is called ' + deletTitle);
+        res.render('pages/loggerPost',{userName : userName,
+                                      userRoles: userRoles,
+                                      title: title,
+                                     author: author});    
 });
 app.post('/logger', function(req, res) {  
      userName = req.body.username;
