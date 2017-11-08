@@ -114,7 +114,7 @@ app.get('/add', function(req, res) {
         if(userName=undefined){
             res.sendStatus(403);
         }
-        else if(userRoles = undefined || userRoles === "Subscriber"){
+        else if(userRoles = false || userRoles === "Subscriber"){
         res.sendStatus(403);      
         }
         else{
