@@ -251,13 +251,59 @@ app.post('/logger', function(req, res) {
 
 
 //error handling
-function errorHandler (err, req, res, next) {
-  if (res.headersSent) {
-    return next(err)
-  }
-  res.status(500)
-  res.render('error', { error: err })
-}
+var path = require('path');
+var morgy = require('morgan');
+var silent = 'test' == process.env.NODE_ENV;
+
+// general config
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+// our custom "verbose errors" setting
+app.enable('verbose errors');
+// disable them in production
+if ('production' == app.settings.env) app.disable('verbose errors');
+silent || app.use(morgy('dev'));
+// Routes
+app.get('/', function(req, res){
+  res.render('index.ejs');
+});
+app.get('/404', function(req, res, next){
+  next();
+});
+app.get('/403', function(req, res, next){
+  // trigger a 403 error
+  var err = new Error('Invalid!');
+  err.status = 403;
+  next(err);
+});
+app.get('/500', function(req, res, next){
+  // trigger a generic (500) error
+  next(new Error('Something went wrong!'));
+});
+app.use(function(req, res, next){
+  res.status(404);
+
+  res.format({
+    html: function () {
+      res.render('404', { url: req.url })
+    },
+    json: function () {
+      res.json({ error: 'Not found' })
+    },
+    default: function () {
+      res.type('txt').send('Not found')
+    }
+  })
+});
+
+
+app.use(function(err, req, res, next){
+  // we may use properties of the error object
+  // here and next(err) appropriately, or if
+  // we possibly recovered from the error, simply next().
+  res.status(err.status || 500);
+  res.render('500', { error: err });
+});
 
 
 
